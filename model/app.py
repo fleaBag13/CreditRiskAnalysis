@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 import warnings
 import pandas as pd
 
 app = Flask(__name__)
+CORS(app)
 
 # Initialize regressors
 Regressors = {
@@ -14,8 +16,8 @@ Regressors = {
 
 # Dummy data for demonstration purposes
 # Replace this with your actual training data
-X_loan_amt_train_prep = pd.read_csv('/Users/mandarkulkarni/Documents/projects/finalProject/X_loan_amt_train_prep.csv')
-y_loan_amt_train_prep = pd.read_csv('/Users/mandarkulkarni/Documents/projects/finalProject/y_loan_amt_train_prep.csv')
+X_loan_amt_train_prep = pd.read_csv('/Users/mandarkulkarni/Documents/projects/final/CreditRiskAnalysis/model/X_loan_amt_train_prep.csv')
+y_loan_amt_train_prep = pd.read_csv('/Users/mandarkulkarni/Documents/projects/final/CreditRiskAnalysis/model/y_loan_amt_train_prep.csv')
 
 # Train the regressors
 for model_name, model in Regressors.items():
@@ -25,7 +27,7 @@ for model_name, model in Regressors.items():
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
-
+    print(data)
     # Extract X values from the request
     X_new = data['X_values']
 
@@ -53,4 +55,4 @@ def predict():
     return jsonify(predictions)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port= 5001)
