@@ -81,7 +81,7 @@ const Predict = () => {
           {/* Input fields */}
           <input
             placeholder="Name"
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
             type="text"
             name="name"
             value={formData.name}
@@ -188,7 +188,7 @@ const Predict = () => {
             value={formData.loan_expense}
             onChange={handleChange}
             placeholder="Loan Expenses"
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <div className="grid grid-cols-2 gap-4">
             <select
@@ -222,7 +222,7 @@ const Predict = () => {
             name="dependents"
             value={formData.dependents}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <input
             type="number"
@@ -230,7 +230,7 @@ const Predict = () => {
             name="credit_score"
             value={formData.credit_score}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <input
             type="number"
@@ -238,7 +238,7 @@ const Predict = () => {
             name="defaults"
             value={formData.defaults}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <select
             name="credit_card"
@@ -309,7 +309,7 @@ const Predict = () => {
             name="coapplicants"
             value={formData.coapplicants}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
 
           <button
