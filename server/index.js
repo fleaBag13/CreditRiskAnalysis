@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 
 const { custData } = require("./controller/customer");
 
-
 const app = express();
 dotenv.config();
 
