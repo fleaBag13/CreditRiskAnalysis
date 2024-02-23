@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import typesOfEmployment from "../components/constants/index";
+import { typesOfEmployment } from "../constants";
 import { layout } from "../style";
 
 const Predict = () => {
+
+  const [response, setResponse] = useState('');
+
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -74,6 +77,29 @@ const Predict = () => {
 
       console.log(X_new);
       console.log("Form submitted successfully!");
+
+      setFormData({
+        name: "",
+        gender: "",
+        age: null,
+        income: null,
+        income_stability: "",
+        profession: "",
+        employment_type: "",
+        location: "",
+        loan_expense: null,
+        fixed: "",
+        variable: "",
+        dependents: null,
+        credit_score: null,
+        defaults: null,
+        credit_card: "",
+        property_age: null,
+        property_type: "",
+        property_location: "",
+        property_price: null,
+        coapplicants: null,
+      })
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -109,8 +135,7 @@ const Predict = () => {
   };
 
   return (
-    <div className="predict h-screen font-poppins bg-primary">
-      <h1 className="text-2xl ">Predict</h1>
+    <div className="predict h-full font-poppins bg-primary">
       <div
         className={`${layout.block1} overflow-y-auto h-[600px] form flex flex-col mx-auto w-1/2 border-2 border-slate-300 rounded-md p-4`}
       >
@@ -118,7 +143,7 @@ const Predict = () => {
           {/* Input fields */}
           <input
             placeholder="Name"
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
             type="text"
             name="name"
             value={formData.name}
@@ -225,7 +250,7 @@ const Predict = () => {
             value={formData.loan_expense}
             onChange={handleChange}
             placeholder="Loan Expenses"
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <div className="grid grid-cols-2 gap-4">
             <select
@@ -259,7 +284,7 @@ const Predict = () => {
             name="dependents"
             value={formData.dependents}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <input
             type="number"
@@ -267,7 +292,7 @@ const Predict = () => {
             name="credit_score"
             value={formData.credit_score}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <input
             type="number"
@@ -275,7 +300,7 @@ const Predict = () => {
             name="defaults"
             value={formData.defaults}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
           <select
             name="credit_card"
@@ -346,7 +371,7 @@ const Predict = () => {
             name="coapplicants"
             value={formData.coapplicants}
             onChange={handleChange}
-            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3"
+            className="px-2 border-gray-300 rounded-lg border-2 focus:border-slate-500 block py-2 my-3 w-full"
           />
 
           <button
@@ -356,7 +381,9 @@ const Predict = () => {
             Submit
           </button>
         </form>
+        
       </div>
+      <div className="min-h-[200px]">{response}</div>
     </div>
   );
 };
