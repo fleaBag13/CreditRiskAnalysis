@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import typesOfEmployment from "../components/constants/index";
+import { typesOfEmployment } from "../constants";
 import { layout } from "../style";
 
 const Predict = () => {
+
+  const [response, setResponse] = useState('');
+
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -32,8 +35,32 @@ const Predict = () => {
 
     try {
       await axios.post("http://localhost:3001/customer", formData);
-
+      const result = await axios.post('http://localhost:5001/predict', { formData });
+      setResponse(result);
       console.log("Form submitted successfully!");
+
+      setFormData({
+        name: "",
+        gender: "",
+        age: null,
+        income: null,
+        income_stability: "",
+        profession: "",
+        employment_type: "",
+        location: "",
+        loan_expense: null,
+        fixed: "",
+        variable: "",
+        dependents: null,
+        credit_score: null,
+        defaults: null,
+        credit_card: "",
+        property_age: null,
+        property_type: "",
+        property_location: "",
+        property_price: null,
+        coapplicants: null,
+      })
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -46,8 +73,7 @@ const Predict = () => {
   };
 
   return (
-    <div className="predict h-screen font-poppins bg-primary">
-      <h1 className="text-2xl ">Predict</h1>
+    <div className="predict h-full font-poppins bg-primary">
       <div
         className={`${layout.block1} overflow-y-auto h-[600px] form flex flex-col mx-auto w-1/2 border-2 border-slate-300 rounded-md p-4`}
       >
@@ -293,7 +319,9 @@ const Predict = () => {
             Submit
           </button>
         </form>
+        
       </div>
+      <div className="min-h-[200px]">{response}</div>
     </div>
   );
 };

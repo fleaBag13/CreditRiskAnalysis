@@ -1,4 +1,4 @@
-const typesOfEmployment = [
+export const typesOfEmployment = [
     "Accountants",
     "Cleaning staff",
     "Cooking staff",
@@ -17,6 +17,19 @@ const typesOfEmployment = [
     "Security staff",
     "Sales staff",
     "Waiters/barmen staff"
-]
+];
 
-export default typesOfEmployment;
+export const navLinks = [
+    {
+      id: "about",
+      title: "About",
+    },
+    {
+      id: "profile",
+      title: "Profile",
+    },
+      {
+        id: "home",
+        title: "Home",
+      },
+  ];
