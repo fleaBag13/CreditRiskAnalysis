@@ -33,10 +33,49 @@ const Predict = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const featureMapping = {
+      Gender_F: formData.gender === "Female" ? 1 : 0,
+      Gender_M: formData.gender === "Male" ? 1 : 0,
+      Profession_Commercial_associate:
+        formData.profession === "Commercial Associate" ? 1 : 0,
+      Profession_Pensioner: formData.profession === "Pensioner" ? 1 : 0,
+      Profession_State_servant: formData.profession === "State Servant" ? 1 : 0,
+      Profession_Working: formData.profession === "Working" ? 1 : 0,
+      Location_Rural: formData.location === "Rural" ? 1 : 0,
+      Location_Semi_Urban: formData.location === "Semi-Urban" ? 1 : 0,
+      Location_Urban: formData.location === "Urban" ? 1 : 0,
+      Expense_Type_1_N: formData.fixed === "No" ? 1 : 0,
+      Expense_Type_1_Y: formData.fixed === "Yes" ? 1 : 0,
+      Expense_Type_2_N: formData.variable === "No" ? 1 : 0,
+      Expense_Type_2_Y: formData.variable === "Yes" ? 1 : 0,
+      Has_Active_Credit_Card_Active: formData.credit_card === "Active" ? 1 : 0,
+      Has_Active_Credit_Card_Inactive:
+        formData.credit_card === "Inactive" ? 1 : 0,
+      Has_Active_Credit_Card_Unpossessed:
+        formData.credit_card === "Unpossessed" ? 1 : 0,
+      Property_Location_Rural: formData.property_location === "Rural" ? 1 : 0,
+      Property_Location_Semi_Urban:
+        formData.property_location === "Semi-Urban" ? 1 : 0,
+      Property_Location_Urban: formData.property_location === "Urban" ? 1 : 0,
+      Income_Stability_High: formData.income_stability === "High" ? 1 : 0,
+      Income_Stability_Low: formData.income_stability === "Low" ? 1 : 0,
+      Age: formData.age,
+      Income_USD: formData.income,
+      Current_Loan_Expenses_USD: formData.loan_expense,
+      Dependents: formData.dependents,
+      Credit_Score: formData.credit_score,
+      No_of_Defaults: formData.defaults,
+      Property_Age: formData.property_age,
+      Property_Type: formData.property_type,
+      Co_Applicant: formData.coapplicants,
+      Property_Price: formData.property_price,
+    };
+
+    const X_new = [Object.values(featureMapping)];
     try {
-      await axios.post("http://localhost:3001/customer", formData);
-      const result = await axios.post('http://localhost:5001/predict', { formData });
-      setResponse(result);
+      await axios.post("http://localhost:3001/customer", X_new);
+
+      console.log(X_new);
       console.log("Form submitted successfully!");
 
       setFormData({
@@ -64,6 +103,29 @@ const Predict = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+
+    setFormData({
+      name: "",
+      gender: "",
+      age: null,
+      income: null,
+      income_stability: "",
+      profession: "",
+      employment_type: "",
+      location: "",
+      loan_expense: null,
+      fixed: "",
+      variable: "",
+      dependents: null,
+      credit_score: null,
+      defaults: null,
+      credit_card: "",
+      property_age: null,
+      property_type: "",
+      property_location: "",
+      property_price: null,
+      coapplicants: null,
+    });
   };
 
   const handleChange = (e) => {
