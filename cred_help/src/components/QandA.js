@@ -18,12 +18,13 @@ const QandA = () => {
     setChats([...chats, { role: "user", text: text }]);
     let payload = { question: text };
     setText("");
-    // let response = await axios.post("http://localhost:8000/query/", payload);
-    // setChats((chats) => [
-    //   ...chats,
-    //   { role: "bot", text: response.data.message.content },
-    // ]);
-    // setResponseLoading(false);
+    let response = await axios.post("http://localhost:3001/query", payload);
+    console.log(response);
+    setChats((chats) => [
+      ...chats,
+      { role: "bot", text: response.data.answer},
+    ]);
+    setResponseLoading(false);
   };
   return (
     <div className="chat-interface">
@@ -44,14 +45,14 @@ const QandA = () => {
           )}
         </div>
         <div className="input-window">
-          {/* <HashLoader
+          <HashLoader
             className="response-loader"
             color={"white"}
             loading={responseLoading}
             size={40}
             aria-label="Loading Spinner"
             data-testid="loader"
-          /> */}
+          />
           <input
             type="text"
             onChange={(e) => {

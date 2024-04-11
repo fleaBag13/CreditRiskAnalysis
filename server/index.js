@@ -1,30 +1,30 @@
-const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const { MemoryVectorStore } = require('langchain/vectorstores/memory');
-const { OpenAIEmbeddings } = require('langchain/embeddings/openai');
-const { CharacterTextSplitter } = require('langchain/text_splitter');
-const { PDFLoader } = require( 'langchain/document_loaders/fs/pdf');
-const { openai } = require('./openai.js')
-const { custData } = require('./controller/customer');
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
+const { MemoryVectorStore } = require("langchain/vectorstores/memory");
+const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
+const { CharacterTextSplitter } = require("langchain/text_splitter");
+const { PDFLoader } = require("langchain/document_loaders/fs/pdf");
+const { openai } = require("./openai.js");
+const { custData } = require("./controller/customer");
 
 const app = express();
 dotenv.config();
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(cors());
-app.use(bodyParser.json({ limit: '30 mb', extended: true }));
-app.use(bodyParser.urlencoded({ limit: '30 mb', extended: true }));
+app.use(bodyParser.json({ limit: "30 mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30 mb", extended: true }));
 
-app.get('/', (req, res) => {
-  console.log('Hello World');
+app.get("/", (req, res) => {
+  console.log("Hello World");
 });
 
-app.post('/customer', custData);
+app.post("/customer", custData);
 
 const PORT = process.env.PORT || 5000;
 
@@ -39,9 +39,9 @@ let store = null;
 
 const history = [
   {
-    role: 'system',
+    role: "system",
     content:
-      'You are an AI guide for GitHub repositories. Assist users by providing information, answering queries, and performing basic actions within the repository. Offer guidance on navigation, code exploration, version control, issue management, collaboration, and common tasks. Aim to enhance the user experience for both beginners and experienced developers.',
+      "You are an AI guide for GitHub repositories. Assist users by providing information, answering queries, and performing basic actions within the repository. Offer guidance on navigation, code exploration, version control, issue management, collaboration, and common tasks. Aim to enhance the user experience for both beginners and experienced developers.",
   },
 ];
 
@@ -53,7 +53,7 @@ const createStore = (docs) => {
 const docsFromLocalPDFs = async (folderPath) => {
   const files = fs.readdirSync(folderPath);
   const pdfFiles = files.filter(
-    (file) => path.extname(file).toLowerCase() === '.pdf'
+    (file) => path.extname(file).toLowerCase() === ".pdf"
   );
   const allDocs = [];
 
@@ -62,7 +62,7 @@ const docsFromLocalPDFs = async (folderPath) => {
     const loader = new PDFLoader(pdfPath);
     const docs = await loader.loadAndSplit(
       new CharacterTextSplitter({
-        separator: '',
+        separator: "",
         chunkSize: 2500,
         chunkOverlap: 200,
       })
@@ -81,11 +81,11 @@ const loadStoreFromLocalPDFs = async (folderPath) => {
 
 const formatMessage = (question, results) => {
   return {
-    role: 'user',
+    role: "user",
     content: `Answer the following question using the provided context.
           Question: ${question}
     
-          Context: ${results.map((r) => r.pageContent).join('\n')}`,
+          Context: ${results.map((r) => r.pageContent).join("\n")}`,
   };
 };
 
@@ -93,49 +93,53 @@ const newMessage = async (message) => {
   // Your existing implementation remains unchanged
 };
 
-app.post('/loadStore', async (req, res) => {
+app.post("/loadStore", async (req, res) => {
   const { folderPath } = req.body;
   try {
     if (!folderPath) {
-      throw new Error('Invalid request: Missing folder path.');
+      throw new Error("Invalid request: Missing folder path.");
     }
     store = await loadStoreFromLocalPDFs(folderPath);
-    res.status(200).json({ message: 'Store loaded' });
+    res.status(200).json({ message: "Store loaded" });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: 'Internal Server Error!' });
+    res.status(500).json({ message: "Internal Server Error!" });
   }
 });
 
 // Modify query endpoint to handle queries after loading store
-app.get('/query', async (req, res) => {
+app.post("/query", async (req, res) => {
   try {
-    const question = req.query.question;
+    const question = req.body.question;
     const results = await store.similaritySearch(question, 2);
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       temperature: 0.7,
       messages: [
         {
-          role: 'system',
+          role: "system",
           content:
-            'You are an AI assistant, answer any questions to the best of your ability.',
+            "You are an AI assistant, answer any questions to the best of your ability.",
         },
         {
-          role: 'user',
+          role: "user",
           content: `Answer the following question using the provided context.
           Question: ${question}
     
-          Context: ${results.map((r) => r.pageContent).join('\n')}`,
+          Context: ${results.map((r) => r.pageContent).join("\n")}`,
         },
       ],
     });
-    const answer = response.choices[0].message.content;
-    const sources = results.map((r) => r.metadata.source).join(', ');
+    // console.log(response);
+    // console.log(response.choices);
+    // console.log(response.choices[0]);
+    console.log(response.choices[0].message.content);
+    const answer = await response.choices[0].message.content;
+    const sources = await results.map((r) => r.metadata.source).join(", ");
 
     res.json({ answer, sources });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
