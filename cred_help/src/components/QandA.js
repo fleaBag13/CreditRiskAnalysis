@@ -7,8 +7,14 @@ import AIBubble from "./AIBubble";
 import HumanBubble from "./HumanBubble";
 import axios from "axios";
 import HashLoader from "react-spinners/HashLoader";
+import { useEffect } from "react";
 
 const QandA = () => {
+  const payload2 = {folderPath:"./"}
+  useEffect(() => {
+    let response  = axios.post("http://localhost:3001/loadStore",payload2)
+    console.log(response);
+  }, []);
   const [chats, setChats] = useState([]);
   const [text, setText] = useState("");
   const [responseLoading, setResponseLoading] = useState(false);
