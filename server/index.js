@@ -93,24 +93,29 @@ const newMessage = async (message) => {
   // Your existing implementation remains unchanged
 };
 
-app.post("/loadStore", async (req, res) => {
-  const { folderPath } = req.body;
-  try {
-    if (!folderPath) {
-      throw new Error("Invalid request: Missing folder path.");
-    }
-    store = await loadStoreFromLocalPDFs(folderPath);
-    res.status(200).json({ message: "Store loaded" });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "Internal Server Error!" });
-  }
-});
+// app.post("/loadStore", async (req, res) => {
+  // const { folderPath } = req.body;
+  // try {
+    // if (!folderPath) {
+    //   throw new Error("Invalid request: Missing folder path.");
+    // }
+    // store = await loadStoreFromLocalPDFs(folderPath);
+    // res.status(200).json({ message: "Store loaded" });
+  // } catch (e) {
+    // console.log(e);
+    // res.status(500).json({ message: "Internal Server Error!" });
+  // }
+// });
 
 // Modify query endpoint to handle queries after loading store
 app.post("/query", async (req, res) => {
   try {
     const question = req.body.question;
+    const  folderPath  = req.body.folderPath;
+    if (!folderPath) {
+      throw new Error("Invalid request: Missing folder path.");
+    }
+    store = await loadStoreFromLocalPDFs(folderPath);
     const results = await store.similaritySearch(question, 2);
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -130,9 +135,6 @@ app.post("/query", async (req, res) => {
         },
       ],
     });
-    // console.log(response);
-    // console.log(response.choices);
-    // console.log(response.choices[0]);
     console.log(response.choices[0].message.content);
     const answer = await response.choices[0].message.content;
     const sources = await results.map((r) => r.metadata.source).join(", ");
