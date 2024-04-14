@@ -135,7 +135,7 @@ const Predict = () => {
   };
 
   return (
-    <div className="predict h-full font-poppins bg-primary">
+    <div className="predict h-full font-poppins bg-secondary">
       <div
         className={`${layout.block1} overflow-y-auto h-[600px] form flex flex-col mx-auto w-1/2 border-2 border-slate-300 rounded-md p-4`}
       >
@@ -376,14 +376,14 @@ const Predict = () => {
 
           <button
             type="submit"
-            className="bg-primary rounded text-secondary py-2"
+            className="bg-primary rounded text-secondary py-4 px-2"
           >
             Submit
           </button>
         </form>
         
       </div>
-      <div className="min-h-[200px]">{response}</div>
+      <div className=" bg-black w-60 h-60 text-white">{response}</div>
     </div>
   );
 };

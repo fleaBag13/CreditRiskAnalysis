@@ -16,8 +16,8 @@ Regressors = {
 
 # Dummy data for demonstration purposes
 # Replace this with your actual training data
-X_loan_amt_train_prep = pd.read_csv('/Users/mandarkulkarni/Documents/projects/final/CreditRiskAnalysis/model/X_loan_amt_train_prep.csv')
-y_loan_amt_train_prep = pd.read_csv('/Users/mandarkulkarni/Documents/projects/final/CreditRiskAnalysis/model/y_loan_amt_train_prep.csv')
+X_loan_amt_train_prep = pd.read_csv('X_loan_amt_train_prep.csv')
+y_loan_amt_train_prep = pd.read_csv('y_loan_amt_train_prep.csv')
 
 # Train the regressors
 for model_name, model in Regressors.items():
@@ -55,4 +55,5 @@ def predict():
     return jsonify(predictions)
 
 if __name__ == '__main__':
+    print("app is running!")
     app.run(debug=True,port= 5001)

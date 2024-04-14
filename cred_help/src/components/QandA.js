@@ -34,9 +34,9 @@ const QandA = () => {
   };
   return (
     <div className="chat-interface">
-      <div className="navbar">
+      <div className="navbar flex justify-center items-center">
         {/* <TfiGithub className="company-icon" /> */}
-        <h4 className="company-name">GitHub GPT</h4>
+        <h4 className="company-name">Chatbot</h4>
       </div>
 
       <div className="outer-container section">
