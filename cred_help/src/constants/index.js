@@ -21,15 +21,15 @@ export const typesOfEmployment = [
 
 export const navLinks = [
     {
-      id: "about",
-      title: "About",
+      id: "home",
+      title: "Home",
     },
     {
-      id: "profile",
-      title: "Profile",
+      id: "predict",
+      title: "Predict",
     },
       {
-        id: "home",
-        title: "Home",
+        id: "chatbot",
+        title: "Chatbot",
       },
   ];

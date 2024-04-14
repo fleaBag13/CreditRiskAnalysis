@@ -63,4 +63,5 @@ def predict():
     return {'max': max_value, 'min': min_value}
     
 if __name__ == '__main__':
+    print("app is running!")
     app.run(debug=True,port= 5001)

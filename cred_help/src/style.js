@@ -28,7 +28,7 @@ const styles = {
   
     sectionInfo: `flex-1 ${styles.flexStart} flex-col`,
 
-    block1 : `bg-gray-200 px-3 py-3 rounded-lg border-2`,
+    block1 : `bg-slate-300 px-3 py-3 rounded-lg border-2`,
 
     pagination: `flex justify-center items-center my-3 text-[18px] gap-4`,
   };
