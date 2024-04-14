@@ -5,7 +5,8 @@ import { layout } from "../style";
 
 const Predict = () => {
 
-  const [response, setResponse] = useState('');
+  const [minResponse, setMinResponse] = useState('');
+  const [maxResponse, setMaxResponse] = useState('');
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,6 +33,9 @@ const Predict = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log(formData)
+    await axios.post("http://localhost:3001/customer", formData);
 
     const featureMapping = {
       Gender_F: formData.gender === "Female" ? 1 : 0,
@@ -73,9 +77,11 @@ const Predict = () => {
 
     const X_new = [Object.values(featureMapping)];
     try {
-      await axios.post("http://localhost:3001/customer", X_new);
+      const result = await axios.post("http://localhost:5001/predict", X_new);
+      setMinResponse(result.data.min);
+      setMaxResponse(result.data.max);
+      console.log(result.data);
 
-      console.log(X_new);
       console.log("Form submitted successfully!");
 
       setFormData({
@@ -104,28 +110,6 @@ const Predict = () => {
       console.error("Error submitting form:", error);
     }
 
-    setFormData({
-      name: "",
-      gender: "",
-      age: null,
-      income: null,
-      income_stability: "",
-      profession: "",
-      employment_type: "",
-      location: "",
-      loan_expense: null,
-      fixed: "",
-      variable: "",
-      dependents: null,
-      credit_score: null,
-      defaults: null,
-      credit_card: "",
-      property_age: null,
-      property_type: "",
-      property_location: "",
-      property_price: null,
-      coapplicants: null,
-    });
   };
 
   const handleChange = (e) => {
@@ -383,7 +367,7 @@ const Predict = () => {
         </form>
         
       </div>
-      <div className=" bg-black w-60 h-60 text-white">{response}</div>
+      {maxResponse && minResponse && <div className=" bg-white mx-auto w-1/2 text-center py-2 mt-2 shadow-xl rounded-md mb-4">Predicted range of credit amount: {minResponse} - {maxResponse}</div>}
     </div>
   );
 };

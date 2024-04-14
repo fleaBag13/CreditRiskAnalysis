@@ -16,8 +16,8 @@ Regressors = {
 
 # Dummy data for demonstration purposes
 # Replace this with your actual training data
-X_loan_amt_train_prep = pd.read_csv('X_loan_amt_train_prep.csv')
-y_loan_amt_train_prep = pd.read_csv('y_loan_amt_train_prep.csv')
+X_loan_amt_train_prep = pd.read_csv('F:\MPR Projects\CreditRisk\model\X_loan_amt_train_prep.csv')
+y_loan_amt_train_prep = pd.read_csv('F:\MPR Projects\CreditRisk\model\y_loan_amt_train_prep.csv')
 
 # Train the regressors
 for model_name, model in Regressors.items():
@@ -29,7 +29,7 @@ def predict():
     data = request.get_json()
     print(data)
     # Extract X values from the request
-    X_new = data['X_values']
+    X_new = data[0]
 
     # Feature names in the same order as your training data
     feature_names = ['Gender_F', 'Gender_M', 'Profession_Commercial associate', 'Profession_Pensioner',
@@ -51,9 +51,17 @@ def predict():
             y_pred = model.predict([X_new])
         predictions[model_name] = y_pred[0]
 
-    # Return predictions as a JSON response
-    return jsonify(predictions)
+    print(predictions)
 
+    sorted_predictions = sorted(predictions.values())
+
+    # Get maximum and minimum values
+    max_value = round(sorted_predictions[-1],2)
+    min_value = round(sorted_predictions[0],2)
+
+    # Return predictions as a JSON response
+    return {'max': max_value, 'min': min_value}
+    
 if __name__ == '__main__':
     print("app is running!")
     app.run(debug=True,port= 5001)
