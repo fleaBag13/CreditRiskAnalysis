@@ -29,7 +29,7 @@ def predict():
     data = request.get_json()
     print(data)
     # Extract X values from the request
-    X_new = data['X_values']
+    X_new = data[0]
 
     # Feature names in the same order as your training data
     feature_names = ['Gender_F', 'Gender_M', 'Profession_Commercial associate', 'Profession_Pensioner',
@@ -51,8 +51,16 @@ def predict():
             y_pred = model.predict([X_new])
         predictions[model_name] = y_pred[0]
 
-    # Return predictions as a JSON response
-    return jsonify(predictions)
+    print(predictions)
 
+    sorted_predictions = sorted(predictions.values())
+
+    # Get maximum and minimum values
+    max_value = round(sorted_predictions[-1],2)
+    min_value = round(sorted_predictions[0],2)
+
+    # Return predictions as a JSON response
+    return {'max': max_value, 'min': min_value}
+    
 if __name__ == '__main__':
     app.run(debug=True,port= 5001)
