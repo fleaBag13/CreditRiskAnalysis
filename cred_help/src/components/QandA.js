@@ -1,6 +1,5 @@
 import React from "react";
 import { AiOutlineSend } from "react-icons/ai";
-import { TfiGithub } from "react-icons/tfi";
 import "./QandA.css";
 import { useState } from "react";
 import AIBubble from "./AIBubble";
