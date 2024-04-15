@@ -11,6 +11,7 @@ function App() {
       <Router>
         <Routes>    
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/home" element={<Home />} />
           <Route exact path="/predict" element={<Predict />} />
           <Route exact path="/chatbot" element={<QandA />} />
         </Routes>

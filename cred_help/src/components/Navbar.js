@@ -3,7 +3,7 @@ import { navLinks } from '../constants'
 
 const Navbar = () => {
   return (
-    <nav className='py-6 justify-between items-center navbar px-4'>
+    <nav className='flex justify-between items-center px-4 border-b border-2'>
       <h2 className='font-semibold p-5 text-lg'>CredHelp</h2>
       <ul className='list-none sm:flex hidden justify-end items-center flex-1'>
         {navLinks.map((nav, index) => (
